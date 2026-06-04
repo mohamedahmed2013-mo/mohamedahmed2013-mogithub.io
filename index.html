@@ -2,101 +2,93 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>طمئن قلبك - النسخة المصححة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طمئن قلبك - النظام المتكامل</title>
     <style>
-        /* تم دمج التنسيقات السابقة للحفاظ على الشكل */
-        body { background-color: #0a1128; color: #fff; font-family: sans-serif; padding: 20px; }
-        .content-section { display: none; }
-        #mainMenu { display: flex; flex-direction: column; gap: 10px; }
-        .menu-box { background: #1c2541; padding: 20px; border-radius: 10px; cursor: pointer; text-align: center; }
-        .active { display: block; }
+        :root { --bg-color: #0a1128; --card-bg: #1c2541; --text-color: #f8fafc; --primary-color: #00b4d8; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .content-section { display: none; width: 100%; max-width: 600px; background: var(--card-bg); padding: 20px; border-radius: 15px; }
+        .menu-box { background: var(--card-bg); padding: 20px; margin: 10px; border-radius: 10px; cursor: pointer; text-align: center; width: 80%; border: 1px solid var(--primary-color); }
+        .counter-btn { padding: 15px; background: var(--primary-color); border: none; border-radius: 10px; color: #fff; font-size: 1.2rem; cursor: pointer; }
     </style>
 </head>
-<body onclick="startAudioSystem()">
+<body onclick="unlockAudio()">
 
-    <!-- بار الأذان -->
-    <div class="azan-bar" style="background:#132247; padding:20px; border-radius:15px; text-align:center;">
-        <h3>نظام التنبيهات</h3>
-        <button id="azanPlayBtn" onclick="toggleAzan()">▶ تشغيل الأذان</button>
-        <p id="azanStatus">اضغط لتفعيل الصوت</p>
+    <h1>طمئن قلبك 🤍</h1>
+    
+    <div id="mainMenu" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية</div>
+        <button id="azanBtn" class="counter-btn" onclick="toggleAzan()">▶ تشغيل الأذان التجريبي</button>
     </div>
 
-    <!-- القائمة -->
-    <div id="mainMenu">
-        <div class="menu-box" onclick="showSection('azkarSection')">الأذكار</div>
-    </div>
-
-    <!-- قسم الأذكار -->
     <div id="azkarSection" class="content-section">
-        <button onclick="hideSection('azkarSection')">رجوع</button>
-        <div id="zkrText" style="margin:20px 0; font-size:1.5rem;">تحميل...</div>
-        <button onclick="nextZkr()">التالي</button>
+        <button onclick="hideSection()">رجوع ↩</button>
+        <div id="zkrText" style="margin: 20px 0; font-size: 1.3rem; line-height: 1.6; text-align: center;">تحميل...</div>
+        <div style="text-align: center;">
+            <button class="counter-btn" onclick="countZkr()" id="counterBtn">0 / 0</button>
+        </div>
     </div>
 
-    <audio id="azanAudio" src="https://www.islamcan.com/audio/adhan/azan1.mp3"></audio>
+    <audio id="azanAudio" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
 
     <script>
-        // 1. إصلاح مشكلة الصوت
+        // 1. نظام الصوت
         const audio = document.getElementById("azanAudio");
-        let audioContextStarted = false;
+        let audioUnlocked = false;
 
-        function startAudioSystem() {
-            if (!audioContextStarted) {
+        function unlockAudio() {
+            if (!audioUnlocked) {
                 audio.play().then(() => {
                     audio.pause();
-                    audio.currentTime = 0;
-                    audioContextStarted = true;
-                    document.getElementById("azanStatus").innerText = "تم تفعيل الصوت بنجاح ✅";
-                }).catch(e => console.log("بانتظار تفاعل المستخدم"));
+                    audioUnlocked = true;
+                }).catch(() => {});
             }
         }
 
         function toggleAzan() {
-            if (audio.paused) {
-                audio.play();
-                document.getElementById("azanPlayBtn").innerText = "⏸ إيقاف";
-            } else {
-                audio.pause();
-                audio.currentTime = 0;
-                document.getElementById("azanPlayBtn").innerText = "▶ تشغيل الأذان";
-            }
+            if (audio.paused) { audio.play(); } 
+            else { audio.pause(); audio.currentTime = 0; }
         }
 
-        // 2. إصلاح بيانات الأذكار (تأكدنا من سلامة الأقواس)
+        // 2. قاعدة بيانات الأذكار
         const azkarData = {
             morning: [
                 { text: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ", count: 1 },
-                { text: "بسم الله الذي لا يضر مع اسمه شيء", count: 3 }
+                { text: "بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء", count: 3 },
+                { text: "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله", count: 1 }
             ]
         };
 
-        // 3. دوال التنقل
         let zkrIndex = 0;
+        let currentCount = 0;
+
         function showSection(id) {
             document.getElementById('mainMenu').style.display = 'none';
             document.getElementById(id).style.display = 'block';
             updateZkr();
         }
 
-        function hideSection(id) {
+        function hideSection() {
             document.getElementById('mainMenu').style.display = 'flex';
-            document.getElementById(id).style.display = 'none';
+            document.getElementById('azkarSection').style.display = 'none';
         }
 
         function updateZkr() {
-            document.getElementById('zkrText').innerText = azkarData.morning[zkrIndex].text;
+            const zkr = azkarData.morning[zkrIndex];
+            document.getElementById('zkrText').innerText = zkr.text;
+            document.getElementById('counterBtn').innerText = `${currentCount} / ${zkr.count}`;
         }
 
-        function nextZkr() {
-            zkrIndex = (zkrIndex + 1) % azkarData.morning.length;
+        function countZkr() {
+            const target = azkarData.morning[zkrIndex].count;
+            if (currentCount < target) {
+                currentCount++;
+            } else {
+                currentCount = 0;
+                zkrIndex = (zkrIndex + 1) % azkarData.morning.length;
+            }
             updateZkr();
         }
-
-        // 4. تصحيح التوقيت
-        setInterval(() => {
-            const now = new Date();
-            // يمكنك إضافة منطق المقارنة هنا لتشغيل الأذان تلقائياً
-        }, 60000);
     </script>
 </body>
 </html>
