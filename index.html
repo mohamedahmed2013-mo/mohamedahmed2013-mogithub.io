@@ -11,8 +11,6 @@
             --text-color: #f8fafc;
             --primary-color: #00b4d8;
             --accent-color: #00f5d4;
-            --highlight: #ffd166;
-            --success-color: #2a9d8f;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
@@ -21,149 +19,47 @@
         
         .main-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 20px; }
         
-        /* بار الأذان الصوتي والمواقيت */
         .azan-bar {
             background: linear-gradient(135deg, #132247, #1c2541);
             border: 1px solid var(--primary-color);
             border-radius: 15px;
-            padding: 15px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 10px;
+            padding: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .azan-header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-        .azan-info { display: flex; align-items: center; gap: 12px; }
-        .azan-title { font-weight: bold; color: var(--accent-color); font-size: 1.1rem; }
-        .azan-status { font-size: 0.85rem; color: #94a3b8; margin-top: 3px; }
-        .azan-btn { 
-            background: var(--primary-color); 
-            color: #000; 
-            border: none; 
-            padding: 10px 20px; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .azan-btn:hover { background: var(--accent-color); transform: scale(1.03); }
-        .azan-btn.playing { background: #ff4d4d; color: #fff; }
-
-        /* جدول مواقيت الصلاة */
+        .azan-title { font-weight: bold; color: var(--accent-color); font-size: 1.2rem; margin-bottom: 10px; }
+        .azan-status { font-size: 0.9rem; color: #94a3b8; }
+        
         .prayer-times-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
         }
-        .prayer-item {
-            text-align: center;
-            padding: 8px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .prayer-item.next-prayer {
-            border: 1px solid var(--accent-color);
-            background: rgba(0, 245, 212, 0.1);
-        }
-        .prayer-name { font-size: 0.85rem; color: #94a3b8; margin-bottom: 4px; }
-        .prayer-time { font-size: 1rem; font-weight: bold; color: #fff; }
-
-        /* الأزرار الرئيسية */
-        .menu-box { 
-            background: var(--card-bg); 
-            border-radius: 15px; 
-            padding: 25px; 
-            text-align: center; 
-            font-size: 1.5rem; 
-            font-weight: bold; 
-            color: var(--text-color); 
-            cursor: pointer; 
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        .menu-box:hover { 
-            border-color: var(--primary-color); 
-            transform: translateY(-3px);
-            background: #222f54;
-        }
-        
-        /* الأقسام الداخلية */
-        .content-section { 
-            display: none; 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            padding: 25px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
-        }
-        
-        .box-title { color: var(--accent-color); font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .back-btn { font-size: 0.9rem; padding: 5px 12px; background: rgba(255,255,255,0.1); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
-        
-        /* تصميم العداد والتبويبات */
-        .azkar-tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
-        .tab-btn { padding: 8px 18px; border-radius: 10px; border: 2px solid var(--primary-color); background: transparent; color: #fff; font-weight: bold; cursor: pointer; }
-        .tab-btn.active { background: var(--primary-color); color: #000; }
-        .azkar-box { background: rgba(10, 17, 40, 0.6); padding: 20px; border-radius: 15px; min-height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; margin-bottom: 20px; }
-        .zkr-text { font-size: 1.25rem; line-height: 1.7; margin-bottom: 10px; color: #fff; }
-        .zkr-reward { font-size: 0.95rem; color: var(--highlight); }
-        .azkar-controls { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
-        .nav-btn { padding: 10px 20px; border-radius: 10px; border: none; background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; }
-        .counter-btn { flex: 1; max-width: 180px; padding: 12px; border-radius: 12px; border: none; background: var(--accent-color); color: #000; font-size: 1.2rem; font-weight: bold; cursor: pointer; direction: ltr; }
-        .counter-btn.done { background: var(--success-color); color: #fff; }
-        
-        /* البحث والمشاعر */
-        .search-box { display: flex; gap: 10px; margin: 15px 0; }
-        .search-box input { flex: 1; padding: 12px; border-radius: 10px; border: none; background: #0a1128; color: #fff; font-size: 1rem; }
-        .search-btn { padding: 0 20px; border-radius: 10px; border: none; background: var(--primary-color); color: #000; font-weight: bold; cursor: pointer; }
-        .result-card { background: #0a1128; padding: 20px; border-radius: 12px; border-right: 5px solid var(--primary-color); margin-top: 15px; line-height: 1.8; text-align: justify; }
-        .buttons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 15px; }
-        .feeling-btn { padding: 10px; border-radius: 8px; border: none; background: #0a1128; color: #fff; cursor: pointer; font-size: 0.9rem; }
-        
-        /* شبكة الصحابة */
-        .companions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; max-height: 550px; overflow-y: auto; padding-right: 5px; }
-        .companion-card { background: #0a1128; padding: 20px; border-radius: 12px; border-right: 4px solid var(--primary-color); cursor: pointer; transition: all 0.2s ease; }
-        .companion-card:hover { transform: translateY(-2px); background: #131f42; border-right-color: var(--accent-color); }
-        .companion-card h3 { color: #fff; font-size: 1.1rem; margin-bottom: 8px; }
-        .companion-card h4 { color: var(--highlight); font-size: 0.85rem; font-weight: normal; }
-        
-        /* النافذة المنبثقة */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--card-bg); max-width: 750px; width: 100%; border-radius: 20px; padding: 30px; border: 2px solid var(--primary-color); position: relative; animation: fadeIn 0.3s ease; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
-        .modal-close { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 1.2rem; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-        .modal-close:hover { background: #ff4d4d; }
-        .modal-title { color: var(--accent-color); font-size: 1.8rem; margin-bottom: 5px; margin-left: 30px; }
-        .modal-subtitle { color: var(--highlight); font-size: 1.1rem; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-        .modal-body { font-size: 1.15rem; line-height: 1.9; color: #e2e8f0; text-align: justify; max-height: 450px; overflow-y: auto; padding-left: 10px; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .prayer-item { text-align: center; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .prayer-name { color: #94a3b8; font-size: 0.9rem; }
+        .prayer-time { font-weight: bold; color: #fff; margin-top: 5px; }
     </style>
 </head>
-<body onclick="enableAudioContext()">
+<body>
 
     <header>
         <h1>دينك 🤍</h1>
         <p style="margin-top:5px; color: #94a3b8;">موسوعة السيرة النبوية وبستان الصحابة الأجلاء</p>
     </header>
 
-    <!-- [باقي الكود يتبع هنا بنفس الهيكلية] -->
+    <div class="main-container">
+        <div class="azan-bar">
+            <div class="azan-title">نظام المواقيت والآذان التلقائي 🕌</div>
+            <div class="azan-status">انقر فوق أي مكان بالشاشة لتنشيط نظام الأذن التلقائي بالكامل 🔔</div>
+            
+            <div class="prayer-times-grid">
+                <div class="prayer-item"><div class="prayer-name">المغرب</div><div class="prayer-time">07:55 م</div></div>
+                <div class="prayer-item"><div class="prayer-name">العصر</div><div class="prayer-time">04:30 م</div></div>
+                <div class="prayer-item"><div class="prayer-name">الظهر</div><div class="prayer-time">12:55 م</div></div>
+                <div class="prayer-item"><div class="prayer-name">الفجر</div><div class="prayer-time">04:10 ص</div></div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
