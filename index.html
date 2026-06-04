@@ -2,31 +2,25 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>آذان الإسكندرية</title>
+    <title>تجربة الصوت</title>
 </head>
-<body style="background:#0a1128; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;">
+<body style="background:#0a1128; height:100vh; display:flex; justify-content:center; align-items:center;">
 
-    <button id="mainBtn" style="padding:40px 80px; font-size:2rem; cursor:pointer; background:#00f5d4; border:none; border-radius:20px; font-weight:bold;">
-        اضغط هنا للتشغيل
-    </button>
+    <button id="btn" style="padding:30px; font-size:20px; cursor:pointer;">اضغط لتجربة صوت الآذان</button>
 
-    <audio id="myAudio" src="https://archive.org/download/Adhan_Madinah/Adhan_Madinah.mp3"></audio>
+    <!-- رابط مختلف تماماً -->
+    <audio id="audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
     <script>
-        const audio = document.getElementById("myAudio");
-        const btn = document.getElementById("mainBtn");
+        const btn = document.getElementById("btn");
+        const audio = document.getElementById("audio");
 
-        btn.onclick = () => {
-            if (audio.paused) {
-                audio.play();
-                btn.innerText = "يعمل الآن... (إيقاف؟)";
-                btn.style.background = "#ff4d4d";
-            } else {
-                audio.pause();
-                audio.currentTime = 0;
-                btn.innerText = "اضغط هنا للتشغيل";
-                btn.style.background = "#00f5d4";
-            }
+        btn.onclick = function() {
+            audio.play().then(() => {
+                alert("إذا كنت لا تسمع شيئاً الآن، فالمشكلة في سماعات جهازك أو أن المتصفح يمنع الصوت برمجياً.");
+            }).catch(error => {
+                alert("خطأ: " + error.message);
+            });
         };
     </script>
 </body>
