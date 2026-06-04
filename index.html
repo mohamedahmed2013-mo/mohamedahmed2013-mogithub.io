@@ -1,74 +1,98 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دينك</title>
-    <style>
-        :root {
-            --bg-color: #0a1128;
-            --card-bg: #1c2541;
-            --text-color: #f8fafc;
-            --primary-color: #00b4d8;
-            --accent-color: #00f5d4;
-            --highlight: #ffd166;
-            --success-color: #2a9d8f;
+// إكمال باقي أذكار النوم
+            { text: "سُبْحَانَ اللَّهِ (33 مرة)، وَالْحَمْدُ لِلَّهِ (33 مرة)، وَاللَّهُ أَكْبَرُ (34 مرة).", reward: "خير لك من خادم، وتعينك على قضاء حوائج يومك بقوة.", count: 1 },
+            { text: "اللَّهُمَّ رَبَّ السَّمَاوَاتِ السَّبْعِ وَرَبَّ الْعَرْشِ الْعَظِيمِ، رَبَّنَا وَرَبَّ كُلِّ شَيْءٍ، فَالِقَ الْحَبِّ وَالنَّوَى، وَمُنْزِلَ التَّوْرَاةِ وَالْإِنْجِيلِ وَالْفُرْقَانِ، أَعُوذُ بِكَ مِنْ شَرِّ كُلِّ شَيْءٍ أَنْتَ آخِذٌ بِنَاصِيَتِهِ، اللَّهُمَّ أَنْتَ الْأَوَّلُ فَلَيْسَ قَبْلَكَ شَيْءٌ، وَأَنْتَ الْآخِرُ فَلَيْسَ بَعْدَكَ شَيْءٌ، وَأَنْتَ الظَّاهِرُ فَلَيْسَ فَوْقَكَ شَيْءٌ، وَأَنْتَ الْبَاطِنُ فَلَيْسَ دُونَكَ شَيْءٌ، اقْضِ عَنَّا الدَّيْنَ وَأَغْنِنَا مِنَ الْفَقْرِ.", reward: "دعاء عظيم لقضاء الديون وجلب الرزق والحماية من شرور المخلوقات.", count: 1 }
+        ]
+    };
+
+    let currentType = 'morning';
+    let currentIndex = 0;
+    let currentCounts = { morning: new Array(20).fill(0), evening: new Array(20).fill(0), sleep: new Array(5).fill(0) };
+
+    function switchAzkar(type) {
+        currentType = type;
+        currentIndex = 0;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(`btn-${type}`).classList.add('active');
+        updateZkr();
+    }
+
+    function updateZkr() {
+        const zkr = azkarData[currentType][currentIndex];
+        document.getElementById("zkrText").innerText = zkr.text;
+        document.getElementById("zkrReward").innerText = zkr.reward;
+        updateCounterUI();
+    }
+
+    function updateCounterUI() {
+        const btn = document.getElementById("counterBtn");
+        const count = currentCounts[currentType][currentIndex];
+        const target = azkarData[currentType][currentIndex].count;
+        btn.innerText = `${count} / ${target}`;
+        btn.className = count >= target ? "counter-btn done" : "counter-btn";
+    }
+
+    function countZkr() {
+        if(currentCounts[currentType][currentIndex] < azkarData[currentType][currentIndex].count) {
+            currentCounts[currentType][currentIndex]++;
+            updateCounterUI();
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        header { text-align: center; margin: 20px 0 30px 0; }
-        header h1 { color: var(--primary-color); font-size: 2.5rem; margin-bottom: 10px; }
-        
-        .main-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 20px; }
-        
-        /* بار الأذان والمواقيت */
-        .azan-bar { background: linear-gradient(135deg, #132247, #1c2541); border: 1px solid var(--primary-color); border-radius: 15px; padding: 15px 20px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .azan-header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .azan-title { font-weight: bold; color: var(--accent-color); font-size: 1.1rem; }
-        .azan-btn { background: var(--primary-color); color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        
-        .prayer-times-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 10px; }
-        .prayer-item { text-align: center; padding: 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); }
-        .prayer-name { font-size: 0.85rem; color: #94a3b8; }
-        .prayer-time { font-size: 1rem; font-weight: bold; color: #fff; }
+    }
 
-        /* الأزرار والأقسام */
-        .menu-box { background: var(--card-bg); border-radius: 15px; padding: 25px; text-align: center; font-size: 1.5rem; font-weight: bold; cursor: pointer; border: 2px solid transparent; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-        .menu-box:hover { border-color: var(--primary-color); background: #222f54; }
-        
-        .content-section { display: none; background: var(--card-bg); border-radius: 20px; padding: 25px; }
-        .back-btn { font-size: 0.9rem; padding: 5px 12px; background: rgba(255,255,255,0.1); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
-    </style>
-</head>
-<body>
+    function nextZkr() {
+        if(currentIndex < azkarData[currentType].length - 1) { currentIndex++; updateZkr(); }
+    }
 
-    <header>
-        <h1>دينك 🤍</h1>
-        <p style="margin-top:5px; color: #94a3b8;">موسوعة السيرة النبوية وبستان الصحابة الأجلاء</p>
-    </header>
+    function prevZkr() {
+        if(currentIndex > 0) { currentIndex--; updateZkr(); }
+    }
 
-    <div class="main-container">
-        <!-- بار الأذان -->
-        <div class="azan-bar">
-            <div class="azan-header-container">
-                <div class="azan-title">نظام المواقيت والآذان التلقائي</div>
-                <button class="azan-btn">استماع تجريبي</button>
+    // وظائف التنقل
+    function showSection(id) {
+        document.getElementById("mainMenu").style.display = "none";
+        document.getElementById(id).style.display = "block";
+    }
+
+    function showMenu() {
+        document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+        document.getElementById("mainMenu").style.display = "flex";
+    }
+
+    // قاعدة بيانات الصحابة والبحث
+    const companions = [
+        { name: "أبو بكر الصديق", title: "الصديق، أول الخلفاء الراشدين", bio: "صاحب النبي في الغار، وأول من آمن من الرجال..." },
+        { name: "عمر بن الخطاب", title: "الفاروق، ثاني الخلفاء الراشدين", bio: "أعز الله به الإسلام، وكان قوياً في الحق..." }
+        // أضف هنا باقي الـ 200 صحابي بنفس التنسيق
+    ];
+
+    function renderCompanions() {
+        const grid = document.getElementById("companionsGrid");
+        grid.innerHTML = companions.map(c => `
+            <div class="companion-card" onclick="openModal('${c.name}', '${c.title}', '${c.bio}')">
+                <h3>${c.name}</h3>
+                <h4>${c.title}</h4>
             </div>
-            <div class="prayer-times-grid">
-                <div class="prayer-item"><div class="prayer-name">الفجر</div><div class="prayer-time">04:10 ص</div></div>
-                <div class="prayer-item"><div class="prayer-name">الظهر</div><div class="prayer-time">12:55 م</div></div>
-                <div class="prayer-item"><div class="prayer-name">العصر</div><div class="prayer-time">04:30 م</div></div>
-                <div class="prayer-item"><div class="prayer-name">المغرب</div><div class="prayer-time">07:55 م</div></div>
-                <div class="prayer-item"><div class="prayer-name">العشاء</div><div class="prayer-time">09:30 م</div></div>
-            </div>
-        </div>
+        `).join('');
+    }
 
-        <!-- القائمة الرئيسية -->
-        <div id="mainMenu" style="display: flex; flex-direction: column; gap: 20px;">
-            <div class="menu-box">🌅 الأذكار اليومية والورد المحصن</div>
-            <div class="menu-box">🩹 محرك المشاعر والأمان النفسي</div>
-            <div class="menu-box">🕌 سير الصحابة العظماء</div>
-        </div>
-    </div>
+    function filterCompanions() {
+        const query = document.getElementById("companionInput").value.toLowerCase();
+        const cards = document.querySelectorAll(".companion-card");
+        cards.forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(query) ? "block" : "none";
+        });
+    }
+
+    function openModal(name, title, bio) {
+        document.getElementById("modalTitle").innerText = name;
+        document.getElementById("modalSubtitle").innerText = title;
+        document.getElementById("modalBody").innerText = bio;
+        document.getElementById("companionModal").style.display = "flex";
+    }
+
+    function closeModal(event) { if(!event || event.target.className === 'modal-overlay') document.getElementById("companionModal").style.display = "none"; }
+
+    // تشغيل الأذكار عند البدء
+    switchAzkar('morning');
+    </script>
 </body>
 </html>
