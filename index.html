@@ -2,24 +2,17 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>طمئن قلبك</title>
+    <title>تشغيل الآذان</title>
 </head>
-<body style="background:#0a1128; color:#fff; text-align:center; padding-top:50px; font-family:sans-serif;">
+<body style="background:#0a1128; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;">
 
-    <h1>نظام الآذان</h1>
-    
-    <audio id="azan" controls>
-        <source src="https://server11.mp3quran.net/adhan/001.mp3" type="audio/mpeg">
+    <h2>نظام الآذان</h2>
+
+    <audio id="audio" controls style="width:300px;">
+        <source src="https://archive.org/download/Adhan_Madinah/Adhan_Madinah.mp3" type="audio/mpeg">
     </audio>
 
-    <p>اضغط على زر التشغيل (المثلث) في الشريط أعلاه.</p>
+    <p>إذا لم يظهر الوقت (0:00) بجانب زر التشغيل، فهناك مشكلة في اتصالك بالإنترنت.</p>
 
-    <script>
-        // هذا الجزء فقط للتشغيل التلقائي الذي قد يسمح به المتصفح
-        window.addEventListener('click', () => {
-            const audio = document.getElementById('azan');
-            audio.play().catch(() => {});
-        }, { once: true });
-    </script>
 </body>
 </html>
