@@ -1,48 +1,125 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>طمئن قلبك</title>
-    <style>
-        body { background: #0a1128; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
-        .box { background: #1c2541; padding: 20px; margin: 10px auto; border-radius: 12px; cursor: pointer; border: 1px solid #00b4d8; width: 90%; max-width: 400px; }
-        .sec { display: none; background: #1c2541; padding: 20px; border-radius: 15px; width: 90%; max-width: 400px; margin: auto; }
-        button { cursor: pointer; padding: 10px; margin: 5px; }
-    </style>
-</head>
-<body onclick="document.getElementById('a').play(); document.getElementById('a').pause();">
+"حزين": { title: "الحزن والهم", ayah: "«لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا»", hadith: "«اللهم إني أعوذ بك من الهم والحزن»", comfort: "حزنك تحت عين الله، وكل دمعة لك بها أجر." },
+        "مظلوم": { title: "المظلومية", ayah: "«وَلَا تَحْسَبَنَّ اللَّهَ غَافِلًا عَمَّا يَعْمَلُ الظَّالِمُونَ»", hadith: "«واتق دعوة المظلوم فإنه ليس بينها وبين الله حجاب»", comfort: "حقك محفوظ عند رب العدل، لا يضيع شيء عنده." },
+        "مذنب": { title: "تقصير وذنب", ayah: "«قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ»", hadith: "«كل بني آدم خطاء وخير الخطائين التوابون»", comfort: "باب التوبة مفتوح حتى تطلع الشمس من مغربها." }
+    };
 
-    <div id="m">
-        <h1>طمئن قلبك 🤍</h1>
-        <div class="box" onclick="v('z')">🌅 الأذكار</div>
-        <div class="box" onclick="v('f')">🩹 المشاعر</div>
-        <div class="box" onclick="v('c')">🕌 الصحابة</div>
-        <button onclick="document.getElementById('a').play()">🔔 تشغيل الأذان</button>
-    </div>
+    // مصفوفة مبسطة لـ 200 صحابي (كمثال للهيكلة، يمكنك التوسع فيها)
+    const companions = [
+        { name: "أبو بكر الصديق", title: "الصديق الأكبر", bio: "أول من أسلم من الرجال، رفيق النبي في الغار." },
+        { name: "عمر بن الخطاب", title: "الفاروق", bio: "ثاني الخلفاء الراشدين، أعز الله به الإسلام." },
+        { name: "عثمان بن عفان", title: "ذو النورين", bio: "جامع القرآن، وأحد العشرة المبشرين بالجنة." },
+        { name: "علي بن أبي طالب", title: "أسد الله الغالب", bio: "فدائي النبي ليلة الهجرة، وباب مدينة العلم." }
+        // ... (يمكنك إضافة بقية الـ 200 صحابي هنا بنفس التنسيق)
+    ];
 
-    <div id="z" class="sec">
-        <button onclick="h()">رجوع</button>
-        <h3>الأذكار</h3>
-        <p>الصباح، المساء، النوم (جاهزة للعمل).</p>
-    </div>
+    let currentSection = 'azkar';
+    let currentCategory = 'morning';
+    let zkrIndex = 0;
+    let counts = {};
 
-    <div id="f" class="sec">
-        <button onclick="h()">رجوع</button>
-        <h3>محرك المشاعر</h3>
-        <p>مخنوق؟ استعن بالسجود.</p>
-    </div>
+    function showSection(id) {
+        document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+        document.getElementById('mainMenu').style.display = 'none';
+        document.getElementById(id).style.display = 'block';
+    }
 
-    <div id="c" class="sec">
-        <button onclick="h()">رجوع</button>
-        <h3>الصحابة</h3>
-        <p>أبو بكر، عمر، عثمان، علي.</p>
-    </div>
+    function showMenu() {
+        document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+        document.getElementById('mainMenu').style.display = 'flex';
+    }
 
-    <audio id="a" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+    function switchAzkar(cat) {
+        currentCategory = cat;
+        zkrIndex = 0;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-' + cat).classList.add('active');
+        updateZkr();
+    }
 
-    <script>
-        function v(id) { document.getElementById('m').style.display='none'; document.getElementById(id).style.display='block'; }
-        function h() { document.querySelectorAll('.sec').forEach(s=>s.style.display='none'); document.getElementById('m').style.display='block'; }
+    function updateZkr() {
+        const item = azkarData[currentCategory][zkrIndex];
+        document.getElementById('zkrText').innerText = item.text;
+        document.getElementById('zkrReward').innerText = item.reward;
+        updateCounterUI(item.count);
+    }
+
+    function updateCounterUI(target) {
+        const key = currentCategory + zkrIndex;
+        counts[key] = counts[key] || 0;
+        const btn = document.getElementById('counterBtn');
+        btn.innerText = `${counts[key]} / ${target}`;
+        btn.className = counts[key] >= target ? 'counter-btn done' : 'counter-btn';
+    }
+
+    function countZkr() {
+        const key = currentCategory + zkrIndex;
+        const target = azkarData[currentCategory][zkrIndex].count;
+        if (counts[key] < target) {
+            counts[key]++;
+            updateCounterUI(target);
+        }
+    }
+
+    function nextZkr() {
+        if (zkrIndex < azkarData[currentCategory].length - 1) {
+            zkrIndex++;
+            updateZkr();
+        }
+    }
+
+    function prevZkr() {
+        if (zkrIndex > 0) {
+            zkrIndex--;
+            updateZkr();
+        }
+    }
+
+    function searchFeeling() {
+        const val = document.getElementById('searchInput').value;
+        const res = database[val] || { title: "تأمل", comfort: "اذكر الله يطمئن قلبك، لا يوجد ضيق يدوم مع اليقين." };
+        document.getElementById('searchResult').innerHTML = `<div class="result-card"><h3>${res.title}</h3><p>${res.comfort}</p></div>`;
+    }
+
+    function quickSearch(val) {
+        document.getElementById('searchInput').value = val;
+        searchFeeling();
+    }
+
+    function renderCompanions() {
+        const grid = document.getElementById('companionsGrid');
+        grid.innerHTML = companions.map(c => `
+            <div class="companion-card" onclick="openModal('${c.name}', '${c.title}', '${c.bio}')">
+                <h3>${c.name}</h3>
+                <h4>${c.title}</h4>
+            </div>
+        `).join('');
+    }
+
+    function filterCompanions() {
+        const query = document.getElementById('companionInput').value.toLowerCase();
+        const filtered = companions.filter(c => c.name.toLowerCase().includes(query));
+        document.getElementById('companionsGrid').innerHTML = filtered.map(c => `
+            <div class="companion-card" onclick="openModal('${c.name}', '${c.title}', '${c.bio}')">
+                <h3>${c.name}</h3>
+                <h4>${c.title}</h4>
+            </div>
+        `).join('');
+    }
+
+    function openModal(name, sub, body) {
+        document.getElementById('modalTitle').innerText = name;
+        document.getElementById('modalSubtitle').innerText = sub;
+        document.getElementById('modalBody').innerText = body;
+        document.getElementById('companionModal').style.display = 'flex';
+    }
+
+    function closeModal(e) {
+        if (e) e.stopPropagation();
+        document.getElementById('companionModal').style.display = 'none';
+    }
+
+    // تهيئة البداية
+    updateZkr();
     </script>
 </body>
 </html>
