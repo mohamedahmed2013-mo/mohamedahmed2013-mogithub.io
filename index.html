@@ -2,83 +2,45 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>طمئن قلبك - النسخة الكاملة</title>
+    <title>طمئن قلبك</title>
     <style>
-        :root { --bg-color: #0a1128; --card-bg: #1c2541; --primary-color: #00b4d8; --accent-color: #00f5d4; }
-        body { background-color: var(--bg-color); color: #fff; font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .main-container { width: 100%; max-width: 600px; }
-        .menu-box { background: var(--card-bg); padding: 20px; margin-bottom: 15px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid var(--primary-color); }
-        .content-section { display: none; background: var(--card-bg); padding: 20px; border-radius: 20px; }
-        .result-card { background: #0a1128; padding: 15px; border-radius: 10px; border-right: 5px solid var(--primary-color); margin-top: 15px; }
-        .comp-card { background: #0a1128; padding: 10px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; }
+        body { background: #0a1128; color: #fff; font-family: sans-serif; padding: 20px; text-align: center; }
+        .box { background: #1c2541; padding: 15px; margin: 10px; border-radius: 10px; cursor: pointer; border: 1px solid #00b4d8; }
+        .section { display: none; background: #1c2541; padding: 20px; border-radius: 15px; }
     </style>
 </head>
-<body onclick="initAudio()">
+<body onclick="document.getElementById('audio').play();">
 
-<div class="main-container">
-    <h1>طمئن قلبك 🤍</h1>
-
-    <div id="mainMenu">
-        <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية</div>
-        <div class="menu-box" onclick="showSection('feelingsSection')">🩹 محرك المشاعر</div>
-        <div class="menu-box" onclick="showSection('companionsSection')">🕌 سير الصحابة</div>
+    <div id="menu">
+        <h1>طمئن قلبك 🤍</h1>
+        <div class="box" onclick="show('azkar')">🌅 الأذكار</div>
+        <div class="box" onclick="show('feelings')">🩹 المشاعر</div>
+        <div class="box" onclick="show('companions')">🕌 الصحابة</div>
+        <button onclick="document.getElementById('audio').play()">🔔 تشغيل الأذان</button>
     </div>
 
-    <div id="azkarSection" class="content-section">
-        <button onclick="showMenu()">رجوع ↩</button>
-        <div id="zkrText" style="margin: 20px 0;">تحميل...</div>
-        <button onclick="countZkr()" id="counterBtn" style="padding:10px; background:var(--accent-color); border:none; border-radius:5px;">عداد</button>
+    <div id="azkar" class="section">
+        <button onclick="hide()">رجوع</button>
+        <div id="zkr">سبحان الله (100 مرة)</div>
+        <button onclick="alert('تم')">تم</button>
     </div>
 
-    <div id="feelingsSection" class="content-section">
-        <button onclick="showMenu()">رجوع ↩</button>
-        <input type="text" id="feelingInput" placeholder="بماذا تشعر؟ (مخنوق، خايف..)">
-        <button onclick="searchFeeling()">بحث</button>
-        <div id="feelingResult"></div>
+    <div id="feelings" class="section">
+        <button onclick="hide()">رجوع</button>
+        <input id="fInput" placeholder="اكتب شعورك..">
+        <button onclick="alert('الله يفرج همك')">بحث</button>
     </div>
 
-    <div id="companionsSection" class="content-section">
-        <button onclick="showMenu()">رجوع ↩</button>
-        <div id="compList"></div>
+    <div id="companions" class="section">
+        <button onclick="hide()">رجوع</button>
+        <div onclick="alert('أبو بكر: الصديق الأكبر')">أبو بكر الصديق</div>
     </div>
-</div>
 
-<script>
-    // البيانات
-    const azkar = [{ text: "أذكار الصباح...", count: 1 }];
-    const feelings = {
-        "مخنوق": "«فَسَبِّحْ بِحَمْدِ رَبِّكَ وَكُن مِّنَ السَّاجِدِينَ» - السجود يزيل ضيق الصدر.",
-        "خايف": "«قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا» - الله معك فلا تخف."
-    };
-    const companions = [
-        { name: "أبو بكر الصديق", bio: "صاحب النبي في الغار وأول الخلفاء." },
-        { name: "عمر بن الخطاب", bio: "الفاروق الذي أعز الله به الإسلام." }
-    ];
+    <audio id="audio" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
 
-    // المنطق
-    function showSection(id) {
-        document.getElementById('mainMenu').style.display = 'none';
-        document.getElementById(id).style.display = 'block';
-    }
-
-    function showMenu() {
-        document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
-        document.getElementById('mainMenu').style.display = 'block';
-    }
-
-    function searchFeeling() {
-        const val = document.getElementById('feelingInput').value;
-        const res = feelings[val] || "ادعُ الله بقلب موقن بالإجابة.";
-        document.getElementById('feelingResult').innerHTML = `<div class="result-card">${res}</div>`;
-    }
-
-    // عرض الصحابة
-    const list = document.getElementById('compList');
-    companions.forEach(c => {
-        list.innerHTML += `<div class="comp-card" onclick="alert('${c.bio}')"><h3>${c.name}</h3></div>`;
-    });
-
-    function initAudio() { /* كود تفعيل الصوت */ }
-</script>
+    <script>
+        function show(id) { document.getElementById('menu').style.display='none'; document.getElementById(id).style.display='block'; }
+        function hide() { document.querySelectorAll('.section').forEach(s=>s.style.display='none'); document.getElementById('menu').style.display='block'; }
+    </script>
 </body>
 </html>
