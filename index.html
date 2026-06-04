@@ -2,92 +2,53 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طمئن قلبك - نظام الآذان</title>
+    <title>نظام الآذان</title>
     <style>
-        :root { --bg-color: #0a1128; --card-bg: #1c2541; --text-color: #f8fafc; --primary-color: #00b4d8; --accent-color: #00f5d4; }
-        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .azan-bar { background: #132247; border: 1px solid var(--primary-color); border-radius: 15px; padding: 20px; width: 100%; max-width: 500px; text-align: center; }
-        .azan-btn { background: var(--primary-color); border: none; padding: 10px 20px; border-radius: 10px; color: #000; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        .prayer-times-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 20px; font-size: 0.8rem; }
-        .prayer-item { background: rgba(255,255,255,0.1); padding: 5px; border-radius: 5px; }
+        body { background: #0a1128; color: white; display: flex; justify-content: center; padding-top: 50px; font-family: sans-serif; }
+        .box { background: #1c2541; padding: 30px; border-radius: 15px; text-align: center; border: 1px solid #00b4d8; }
+        button { padding: 15px 30px; font-size: 1.2rem; cursor: pointer; background: #00b4d8; border: none; border-radius: 10px; color: black; font-weight: bold; }
     </style>
 </head>
-<body onclick="unlockAudio()">
+<body>
 
-    <div class="azan-bar">
-        <h3>نظام الآذان (الإسكندرية)</h3>
-        <p id="statusMsg">اضغط في أي مكان لتفعيل الصوت</p>
-        <button id="azanPlayBtn" class="azan-btn" onclick="manualToggle(event)">▶ استماع تجريبي</button>
-        
-        <div class="prayer-times-grid">
-            <div class="prayer-item">الفجر<br><span id="t-Fajr">--:--</span></div>
-            <div class="prayer-item">الظهر<br><span id="t-Dhuhr">--:--</span></div>
-            <div class="prayer-item">العصر<br><span id="t-Asr">--:--</span></div>
-            <div class="prayer-item">المغرب<br><span id="t-Maghrib">--:--</span></div>
-            <div class="prayer-item">العشاء<br><span id="t-Isha">--:--</span></div>
-        </div>
+    <div class="box">
+        <h3>نظام الآذان التلقائي</h3>
+        <p id="msg">اضغط في أي مكان بالصفحة أولاً، ثم اضغط زر التشغيل</p>
+        <button id="playBtn" onclick="tryPlay()">▶ استماع تجريبي</button>
     </div>
 
-    <audio id="azanAudio" src="https://server11.mp3quran.net/adhan/001.mp3"></audio>
+    <!-- رابط مباشر ومضمون -->
+    <audio id="audioPlayer" src="https://archive.org/download/Adhan_Madinah/Adhan_Madinah.mp3" preload="auto"></audio>
 
     <script>
-        const audio = document.getElementById("azanAudio");
-        const playBtn = document.getElementById("azanPlayBtn");
-        let unlocked = false;
-        let prayerTimes = {};
+        const audio = document.getElementById("audioPlayer");
+        const btn = document.getElementById("playBtn");
+        let isUnlocked = false;
 
-        // 1. تفعيل الصوت عند أول ضغطة
-        function unlockAudio() {
-            if (!unlocked) {
+        // وظيفة لفك قفل الصوت عند أول ضغطة في الصفحة
+        document.body.addEventListener('click', () => {
+            if (!isUnlocked) {
                 audio.play().then(() => {
                     audio.pause();
                     audio.currentTime = 0;
-                    unlocked = true;
-                    document.getElementById("statusMsg").innerText = "النظام جاهز ✅";
-                }).catch(() => {});
+                    isUnlocked = true;
+                    document.getElementById("msg").innerText = "تم تفعيل الصوت بنجاح! اضغط الاستماع الآن";
+                }).catch(e => console.log("بانتظار تفاعل المستخدم"));
             }
-        }
+        }, { once: true });
 
-        // 2. التشغيل اليدوي
-        function manualToggle(event) {
-            event.stopPropagation();
+        function tryPlay() {
             if (audio.paused) {
-                audio.play();
-                playBtn.innerText = "⏸ إيقاف";
+                audio.play().catch(e => alert("اضغط في أي مكان بالصفحة أولاً للسماح بالصوت"));
+                btn.innerText = "⏸ إيقاف";
             } else {
                 audio.pause();
                 audio.currentTime = 0;
-                playBtn.innerText = "▶ استماع تجريبي";
+                btn.innerText = "▶ استماع تجريبي";
             }
         }
 
-        // 3. جلب مواقيت الصلاة من API
-        async function fetchPrayerTimes() {
-            try {
-                const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Alexandria&country=Egypt&method=5');
-                const data = await res.json();
-                prayerTimes = data.data.timings;
-                document.getElementById('t-Fajr').innerText = prayerTimes.Fajr;
-                document.getElementById('t-Dhuhr').innerText = prayerTimes.Dhuhr;
-                document.getElementById('t-Asr').innerText = prayerTimes.Asr;
-                document.getElementById('t-Maghrib').innerText = prayerTimes.Maghrib;
-                document.getElementById('t-Isha').innerText = prayerTimes.Isha;
-            } catch (e) { console.error("فشل جلب المواقيت"); }
-        }
-
-        // 4. التحقق من وقت الآذان
-        function checkTime() {
-            const now = new Date();
-            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-            if (unlocked && (timeStr === prayerTimes.Fajr || timeStr === prayerTimes.Dhuhr || timeStr === prayerTimes.Asr || timeStr === prayerTimes.Maghrib || timeStr === prayerTimes.Isha)) {
-                if (audio.paused) audio.play();
-            }
-        }
-
-        audio.onended = () => { playBtn.innerText = "▶ استماع تجريبي"; };
-        fetchPrayerTimes();
-        setInterval(checkTime, 30000);
+        audio.onended = () => { btn.innerText = "▶ استماع تجريبي"; };
     </script>
 </body>
 </html>
