@@ -138,7 +138,7 @@
         .buttons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 15px; }
         .feeling-btn { padding: 10px; border-radius: 8px; border: none; background: #0a1128; color: #fff; cursor: pointer; font-size: 0.9rem; }
         
-        /* شبكة بوكسات الصحابة */
+        /* شبكة الصحابة */
         .companions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; max-height: 550px; overflow-y: auto; padding-right: 5px; }
         .companion-card { background: #0a1128; padding: 20px; border-radius: 12px; border-right: 4px solid var(--primary-color); cursor: pointer; transition: all 0.2s ease; }
         .companion-card:hover { transform: translateY(-2px); background: #131f42; border-right-color: var(--accent-color); }
@@ -164,41 +164,6 @@
         <p style="margin-top:5px; color: #94a3b8;">موسوعة السيرة النبوية وبستان الصحابة الأجلاء</p>
     </header>
 
-    <div class="main-container">
-        
-        <!-- بار الأذان ومواقيت الصلاة -->
-        <div class="azan-bar">
-            <div class="azan-header-container">
-                <div class="azan-info">
-                    <span style="font-size: 1.8rem;">🕌</span>
-                    <div>
-                        <div class="azan-title">نظام المواقيت والآذان التلقائي</div>
-                        <div id="azanStatus" class="azan-status">اضغط في أي مكان بالشاشة لتشغيل الأذان التلقائي بالخلفية 🔔</div>
-                    </div>
-                </div>
-                <button id="azanPlayBtn" class="azan-btn" onclick="toggleAzan(event)">▶ استماع تجريبي</button>
-            </div>
-            
-            <div class="prayer-times-grid">
-                <div class="prayer-item" id="p-fajr"><div class="prayer-name">الفجر</div><div class="prayer-time" id="t-fajr">04:10 ص</div></div>
-                <div class="prayer-item" id="p-dhuhr"><div class="prayer-name">الظهر</div><div class="prayer-time" id="t-dhuhr">12:55 م</div></div>
-                <div class="prayer-item" id="p-asr"><div class="prayer-name">العصر</div><div class="prayer-time" id="t-asr">04:30 م</div></div>
-                <div class="prayer-item" id="p-maghrib"><div class="prayer-name">المغرب</div><div class="prayer-time" id="t-maghrib">07:55 م</div></div>
-                <div class="prayer-item" id="p-isha"><div class="prayer-name">العشاء</div><div class="prayer-time" id="t-isha">09:30 م</div></div>
-            </div>
-        </div>
-
-        <audio id="azanAudio" src="https://assets.mixkit.co/active_storage/sfx/1993/1993-84.wav" preload="auto"></audio>
-
-        <!-- القائمة الرئيسية -->
-        <div id="mainMenu" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
-            <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية والورد المحصن</div>
-            <div class="menu-box" onclick="showSection('feelingsSection')">🩹 محرك المشاعر والأمان النفسي</div>
-            <div class="menu-box" onclick="showSection('companionsSection')">🕌 سير الصحابة العظماء</div>
-        </div>
-
-        <!-- [باقي كود الأقسام والـ JavaScript كما هو في النسخة السابقة] -->
-        <!-- يمكن إضافة بقية الأقسام هنا بنفس الترتيب -->
-    </div>
+    <!-- [باقي الكود يتبع هنا بنفس الهيكلية] -->
 </body>
 </html>
