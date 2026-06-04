@@ -1,27 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>تجربة الصوت</title>
-</head>
-<body style="background:#0a1128; height:100vh; display:flex; justify-content:center; align-items:center;">
-
-    <button id="btn" style="padding:30px; font-size:20px; cursor:pointer;">اضغط لتجربة صوت الآذان</button>
-
-    <!-- رابط مختلف تماماً -->
-    <audio id="audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-
-    <script>
-        const btn = document.getElementById("btn");
-        const audio = document.getElementById("audio");
-
-        btn.onclick = function() {
-            audio.play().then(() => {
-                alert("إذا كنت لا تسمع شيئاً الآن، فالمشكلة في سماعات جهازك أو أن المتصفح يمنع الصوت برمجياً.");
-            }).catch(error => {
-                alert("خطأ: " + error.message);
-            });
-        };
-    </script>
+<html>
+<body>
+    <!-- إضافة controls تسمح لك بالتحكم اليدوي ورؤية هل الملف يعمل أم لا -->
+    <audio id="myAudio" controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <p>إذا ظهر لك شريط التحكم أعلاه، اضغط على زر "Play" الموجود داخله.</p>
 </body>
 </html>
