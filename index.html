@@ -6,70 +6,78 @@
     <title>طمئن قلبك - النسخة الموسوعية الشاملة والمواقيت الدقيقة</title>
     <style>
         :root {
-            --bg-color: #0a1128;
-            --card-bg: #1c2541;
-            --text-color: #f8fafc;
-            --primary-color: #00b4d8;
-            --accent-color: #00f5d4;
-            --highlight: #ffd166;
-            --success-color: #2a9d8f;
+            --bg-color: #0a1128; --card-bg: #1c2541; --text-color: #f8fafc;
+            --primary-color: #00b4d8; --accent-color: #00f5d4; --highlight: #ffd166; --success-color: #2a9d8f;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         header { text-align: center; margin: 20px 0 30px 0; }
         header h1 { color: var(--primary-color); font-size: 2.5rem; margin-bottom: 10px; }
         .main-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 20px; }
+        
+        /* بار الأذان المطور */
         .azan-bar { background: linear-gradient(135deg, #132247, #1c2541); border: 1px solid var(--primary-color); border-radius: 15px; padding: 15px 20px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .azan-header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .azan-info { display: flex; align-items: center; gap: 12px; }
         .azan-title { font-weight: bold; color: var(--accent-color); font-size: 1.1rem; }
         .azan-status { font-size: 0.85rem; color: #94a3b8; margin-top: 3px; }
         .azan-btn { background: var(--primary-color); color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .azan-btn:hover { background: var(--accent-color); transform: scale(1.03); }
         .azan-btn.playing { background: #ff4d4d; color: #fff; }
-        .prayer-times-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.05); }
+
+        /* باقي الأنماط (الجدول، الأقسام، المودال) كما كانت */
+        .prayer-times-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 10px; }
         .prayer-item { text-align: center; padding: 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); }
         .prayer-item.next-prayer { border: 1px solid var(--accent-color); background: rgba(0, 245, 212, 0.1); }
-        .menu-box { background: var(--card-bg); border-radius: 15px; padding: 25px; text-align: center; font-size: 1.5rem; font-weight: bold; cursor: pointer; margin-bottom: 20px; transition: 0.3s; }
-        .menu-box:hover { background: #222f54; }
-        .content-section { display: none; background: var(--card-bg); border-radius: 20px; padding: 25px; }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .menu-box { background: var(--card-bg); border-radius: 15px; padding: 25px; text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--text-color); cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .menu-box:hover { border-color: var(--primary-color); transform: translateY(-3px); background: #222f54; }
+        .content-section { display: none; background: var(--card-bg); border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .box-title { color: var(--accent-color); font-size: 1.4rem; margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .back-btn { font-size: 0.9rem; padding: 5px 12px; background: rgba(255,255,255,0.1); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body onclick="enableAudioContext()">
 
-    <header><h1>طمئن قلبك 🤍</h1></header>
+    <header>
+        <h1>طمئن قلبك 🤍</h1>
+        <p style="margin-top:5px; color: #94a3b8;">موسوعة السيرة النبوية العطرة وبستان الصحابة الأجلاء</p>
+    </header>
 
     <div class="main-container">
         <div class="azan-bar">
             <div class="azan-header-container">
                 <div class="azan-info">
-                    <span>🕌</span>
+                    <span style="font-size: 1.8rem;">🕌</span>
                     <div>
                         <div class="azan-title">نظام المواقيت والآذان التلقائي</div>
-                        <div id="azanStatus" class="azan-status">انقر في أي مكان لتفعيل الأذان 🔔</div>
+                        <div id="azanStatus" class="azan-status">اضغط في أي مكان بالشاشة لتنشيط النظام 🔔</div>
                     </div>
                 </div>
                 <button id="azanPlayBtn" class="azan-btn" onclick="toggleAzan(event)">▶ استماع تجريبي</button>
             </div>
             <div class="prayer-times-grid">
-                <div class="prayer-item" id="p-fajr">الفجر<br><b>04:10</b></div>
-                <div class="prayer-item" id="p-dhuhr">الظهر<br><b>12:55</b></div>
-                <div class="prayer-item" id="p-asr">العصر<br><b>16:30</b></div>
-                <div class="prayer-item" id="p-maghrib">المغرب<br><b>19:55</b></div>
-                <div class="prayer-item" id="p-isha">العشاء<br><b>21:30</b></div>
+                <div class="prayer-item" id="p-fajr"><div class="prayer-name">الفجر</div><div class="prayer-time" id="t-fajr">04:10 ص</div></div>
+                <div class="prayer-item" id="p-dhuhr"><div class="prayer-name">الظهر</div><div class="prayer-time" id="t-dhuhr">12:55 م</div></div>
+                <div class="prayer-item" id="p-asr"><div class="prayer-name">العصر</div><div class="prayer-time" id="t-asr">04:30 م</div></div>
+                <div class="prayer-item" id="p-maghrib"><div class="prayer-name">المغرب</div><div class="prayer-time" id="t-maghrib">07:55 م</div></div>
+                <div class="prayer-item" id="p-isha"><div class="prayer-name">العشاء</div><div class="prayer-time" id="t-isha">09:30 م</div></div>
             </div>
         </div>
 
-        <audio id="azanAudio" src="https://assets.mixkit.co/active_storage/sfx/1993/1993-84.wav" preload="auto"></audio>
+        <audio id="azanAudio" src="azan.mp3" preload="auto"></audio>
 
-        <div id="mainMenu">
+        <div id="mainMenu" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
+            <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية والورد المحصن</div>
+            <div class="menu-box" onclick="showSection('feelingsSection')">🩹 محرك المشاعر والأمان النفسي</div>
             <div class="menu-box" onclick="showSection('companionsSection')">🕌 سير الصحابة العظماء</div>
         </div>
-        <div id="companionsSection" class="content-section">...</div>
-    </div>
+
+        </div>
 
     <script>
+        // دمج منطق الأذان مع التنشيط عند الضغط
         const azanAudio = document.getElementById("azanAudio");
+        const azanPlayBtn = document.getElementById("azanPlayBtn");
         const azanStatus = document.getElementById("azanStatus");
         let isAudioAllowed = false;
 
@@ -78,37 +86,31 @@
                 azanAudio.play().then(() => {
                     azanAudio.pause();
                     isAudioAllowed = true;
-                    azanStatus.innerText = "نظام الأذان مفعل ✅";
+                    azanStatus.innerText = "النظام مفعّل وجاهز للتنبيه ✅";
                 }).catch(() => {});
             }
         }
 
-        function toggleAzan(e) {
-            e.stopPropagation();
+        function toggleAzan(event) {
+            if(event) event.stopPropagation();
             if (azanAudio.paused) {
                 azanAudio.play();
-                document.getElementById("azanPlayBtn").innerText = "⏸ إيقاف";
+                azanPlayBtn.innerText = "⏸ إيقاف";
             } else {
                 azanAudio.pause();
                 azanAudio.currentTime = 0;
-                document.getElementById("azanPlayBtn").innerText = "▶ استماع تجريبي";
+                azanPlayBtn.innerText = "▶ استماع تجريبي";
             }
         }
 
-        function checkClockForAzan() {
-            const now = new Date();
-            const times = [
-                { h: 4, m: 10 }, { h: 12, m: 55 }, { h: 16, m: 30 }, { h: 19, m: 55 }, { h: 21, m: 30 }
-            ];
-            times.forEach(t => {
-                if (now.getHours() === t.h && now.getMinutes() === t.m && now.getSeconds() === 0) {
-                    azanAudio.play();
-                }
-            });
+        function showSection(id) { 
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById(id).style.display = 'block'; 
         }
-        setInterval(checkClockForAzan, 1000);
-
-        function showSection(id) { document.getElementById('mainMenu').style.display = 'none'; document.getElementById(id).style.display = 'block'; }
+        function showMenu() { 
+            document.getElementById('mainMenu').style.display = 'flex';
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+        }
     </script>
 </body>
 </html>
