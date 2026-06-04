@@ -2,79 +2,290 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>طمئن قلبك - الموسوعة الشاملة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طمئن قلبك - الموسوعة الإسلامية الشاملة ونظام الأذان</title>
     <style>
-        :root { --bg: #0a1128; --card: #1c2541; --accent: #00b4d8; --text: #ffffff; }
-        body { background: var(--bg); color: var(--text); font-family: 'Arial', sans-serif; padding: 20px; line-height: 1.6; }
-        .container { max-width: 900px; margin: auto; }
-        .box { background: var(--card); padding: 20px; margin-bottom: 15px; border-radius: 15px; cursor: pointer; border: 1px solid var(--accent); transition: 0.3s; }
-        .box:hover { background: #222f54; }
-        .section { display: none; background: var(--card); padding: 30px; border-radius: 20px; }
-        h1, h2 { color: var(--accent); }
+        /* دمج الهوية البصرية وتصميم احترافي متجاوب */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0a1128; /* الخلفية الفخمة من كود الصوت */
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        h1, h2, h3 {
+            color: #00e676;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border-top: 4px solid #00e676;
+        }
+
+        /* قسم نظام الأذان والصوت */
+        .azan-section {
+            text-align: center;
+            background: linear-gradient(135deg, #111e46, #0a1128);
+            border-top: 4px solid #00b0ff;
+        }
+
+        .audio-player {
+            margin: 15px 0;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .status-msg {
+            font-size: 1.1rem;
+            color: #00b0ff;
+            font-weight: bold;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        /* أزرار وتفاعلات الأذكار والمشاعر */
+        .btn {
+            background: #00e676;
+            color: #0a1128;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #00b252;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #00b0ff;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background: #0081cb;
+        }
+
+        .counter-display {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #ffea00;
+        }
+
+        .flex-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-right: 4px solid #00e676;
+            display: none;
+            line-height: 1.6;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="box">
-        <h3>نظام الأذان التلقائي</h3>
-        <button onclick="document.getElementById('audio').play()">▶ تشغيل الأذان</button>
-        <audio id="audio" src="azan.mp3"></audio>
+    <header>
+        <h1>موسوعة طمئن قلبك الرقمية</h1>
+        <p>كل ما يحتاجه المسلم في يومه مع نظام الأذان الذكي</p>
+    </header>
+
+    <div class="container">
+
+        <!-- أولاً: نظام الأذان الفعّال (مدمج ومطور من كود الصوت) -->
+        <div class="card azan-section">
+            <h2>نظام الآذان الفعّال</h2>
+            <p>تم دمج ميزة التشغيل التلقائي المباشر لملف الأذان الخاص بك.</p>
+            
+            <!-- مشغل الصوت المحلي -->
+            <audio id="audio" class="audio-player" controls>
+                <source src="azan.mp3" type="audio/mpeg">
+                متصفحك لا يدعم مشغل الصوت.
+            </audio>
+
+            <p id="msg" class="status-msg">اضغط في أي مكان في الصفحة لسماع الأذان وتفعيل النظام</p>
+        </div>
+
+        <!-- ثانياً: قسم مواقيت الصلاة الإلكتروني -->
+        <div class="card">
+            <h2>مواقيت الصلاة</h2>
+            <p>تابع حصاد الصلوات المفروضة اليومية ونبه قلبك بذكر الله.</p>
+            <div class="flex-buttons">
+                <button class="btn btn-secondary" onclick="showPrayers()">عرض جدول المواقيت الاسترشادي</button>
+            </div>
+            <div id="prayers-box" class="result-box">
+                <strong>مواقيت الصلاة التقريبية:</strong><br>
+                الفجر: 03:15 ص | الشروق: 04:55 ص | الظهر: 12:00 م | العصر: 03:30 م | المغرب: 07:05 م | العشاء: 08:35 م
+            </div>
+        </div>
+
+        <!-- ثالثاً: قسم الأذكار والعداد الرقمي -->
+        <div class="card">
+            <h2>الأذكار اليومية والسبحة الرقمية</h2>
+            <p id="dhikr-text" style="font-size: 1.2rem; font-weight: bold; color: #ffea00; margin: 10px 0;">"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ"</p>
+            <div class="counter-display" id="counter">0</div>
+            <button class="btn" onclick="incrementCounter()">تسبيح (+1)</button>
+            <button class="btn btn-secondary" onclick="resetCounter()">تصفير العداد</button>
+            <button class="btn btn-secondary" onclick="nextDhikr()">الذكر التالي</button>
+        </div>
+
+        <!-- رابعاً: محرك المشاعر والجرعة الإيمانية -->
+        <div class="card">
+            <h2>بماذا تشعر الآن؟</h2>
+            <p>اختر شعورك الحالي لنوجهك إلى الآيات والأدعية المناسبة لقلبك:</p>
+            <div class="flex-buttons">
+                <button class="btn" onclick="getFeeling('حزين')">😔 حزين</button>
+                <button class="btn" onclick="getFeeling('قلق')">😰 قلق / متوتر</button>
+                <button class="btn" onclick="getFeeling('سعيد')">😇 سعيد / ممتن</button>
+                <button class="btn" onclick="getFeeling('ضعيف')">🥀 ضعيف / مقصر</button>
+            </div>
+            <div id="feeling-result" class="result-box"></div>
+        </div>
+
+        <!-- خامساً: موسوعة سير الصحابة -->
+        <div class="card">
+            <h2>موسوعة سير الصحابة والتابعين</h2>
+            <p>تعلم واقرأ عن أبطال الإسلام العظام لتقتدي بهم:</p>
+            <div class="flex-buttons">
+                <button class="btn btn-secondary" onclick="getSahabi('أبو بكر')">أبو بكر الصديق</button>
+                <button class="btn btn-secondary" onclick="getSahabi('عمر')">عمر بن الخطاب</button>
+                <button class="btn btn-secondary" onclick="getSahabi('خالد')">خالد بن الوليد</button>
+            </div>
+            <div id="sahabi-result" class="result-box"></div>
+        </div>
+
     </div>
 
-    <div id="mainMenu">
-        <div class="box" onclick="show('azkar')">🌅 الأذكار اليومية</div>
-        <div class="box" onclick="show('feelings')">🩹 محرك المشاعر</div>
-        <div class="box" onclick="show('companions')">🕌 سير الصحابة</div>
-    </div>
+    <script>
+        // === 1. سكريبت تفعيل الأذان الفعال (من ملف الصوت.html مع تعديل للاندماج) ===
+        window.addEventListener('click', () => {
+            const audio = document.getElementById('audio');
+            audio.play().then(() => {
+                document.getElementById('msg').innerText = "جاري تشغيل الأذان الفعلي (azan.mp3)...";
+                document.getElementById('msg').style.color = "#00e676";
+            }).catch(error => {
+                console.log("المتصفح يمنع التشغيل التلقائي حتى الآن، يرجى التفاعل مع الصفحة.");
+            });
+        }, { once: true });
 
-    <div id="azkar" class="section">
-        <button onclick="hide()">رجوع</button>
-        <h2>الأذكار اليومية</h2>
-        <p>1. أذكار الصباح: اللهم بك أصبحنا وبك أمسينا...</p>
-        <p>2. أذكار المساء: اللهم بك أمسينا وبك أصبحنا...</p>
-        <p>3. سبحان الله وبحمده (100 مرة)...</p>
-        <p>4. بسم الله الذي لا يضر مع اسمه شيء...</p>
-        <p>5. أعوذ بكلمات الله التامات من شر ما خلق...</p>
-        <p>6. يا حي يا قيوم برحمتك أستغيث...</p>
-        <p>7. اللهم إني أسألك العفو والعافية...</p>
-        <p>8. لا إله إلا الله وحده لا شريك له...</p>
-        <p>9. أستغفر الله وأتوب إليه...</p>
-        <p>10. اللهم صلِ وسلم على نبينا محمد...</p>
-        </div>
+        // === 2. نظام السبحة والأذكار ===
+        let count = 0;
+        const dhikrs = [
+            "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+            "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
+            "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+            "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّد"
+        ];
+        let dhikrIndex = 0;
 
-    <div id="feelings" class="section">
-        <button onclick="hide()">رجوع</button>
-        <h2>محرك المشاعر</h2>
-        <p>إذا كنت تشعر بالحزن: تذكر قوله تعالى {لا تحزن إن الله معنا}...</p>
-        <p>إذا كنت تشعر بالقلق: {ألا بذكر الله تطمئن القلوب}...</p>
-        <p>إذا كنت تشعر بالوحدة: {ونحن أقرب إليه من حبل الوريد}...</p>
-        </div>
+        function incrementCounter() {
+            count++;
+            document.getElementById('counter').innerText = count;
+        }
 
-    <div id="companions" class="section">
-        <button onclick="hide()">رجوع</button>
-        <h2>سير الصحابة</h2>
-        <h3>أبو بكر الصديق</h3>
-        <p>أول من أسلم من الرجال، ورفيق النبي في الهجرة...</p>
-        <h3>عمر بن الخطاب</h3>
-        <p>الفاروق الذي أعز الله به الإسلام...</p>
-        <h3>عثمان بن عفان</h3>
-        <p>ذو النورين، الغني السخي...</p>
-        <h3>علي بن أبي طالب</h3>
-        <p>فدائي الهجرة، وباب مدينة العلم...</p>
-        </div>
-</div>
+        function resetCounter() {
+            count = 0;
+            document.getElementById('counter').innerText = count;
+        }
 
-<script>
-    function show(id) {
-        document.getElementById('mainMenu').style.display = 'none';
-        document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
-    }
-    function hide() {
-        document.getElementById('mainMenu').style.display = 'block';
-        document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-    }
-</script>
+        function nextDhikr() {
+            dhikrIndex = (dhikrIndex + 1) % dhikrs.length;
+            document.getElementById('dhikr-text').innerText = `"${dhikrs[dhikrIndex]}"`;
+            resetCounter();
+        }
+
+        // === 3. سكريبت عرض مواقيت الصلاة ===
+        function showPrayers() {
+            const box = document.getElementById('prayers-box');
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // === 4. محرك المشاعر الإيماني ===
+        function getFeeling(feeling) {
+            const resultBox = document.getElementById('feeling-result');
+            resultBox.style.display = 'block';
+            let text = "";
+            
+            if(feeling === 'حزين') {
+                text = "<strong>جرعة الصبر لقلبك:</strong> قال تعالى: {لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا}. تذكر أن الحزن يغسل الخطايا، وقل: (اللهم إني أعوذ بك من الهم والحزن).";
+            } else if(feeling === 'قلق') {
+                text = "<strong>جرعة السكينة لقلبك:</strong> قال تعالى: {أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ}. ردد بقلب حاضر: (حسبي الله ونعم الوكيل).";
+            } else if(feeling === 'سعيد') {
+                text = "<strong>جرعة الشكر لزيادة النعمة:</strong> قال تعالى: {لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ}. ردد: (الحمد لله الذي بنعمته تتم الصالحات).";
+            } else if(feeling === 'ضعيف') {
+                text = "<strong>جرعة القوة والرجوع:</strong> قال تعالى: {قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ}. جدد وضوءك وصلِّ ركعتين.";
+            }
+            resultBox.innerHTML = text;
+        }
+
+        // === 5. سكريبت موسوعة سير الصحابة ===
+        function getSahabi(name) {
+            const resultBox = document.getElementById('sahabi-result');
+            resultBox.style.display = 'block';
+            let text = "";
+
+            if(name === 'أبو بكر') {
+                text = "<strong>أبو بكر الصديق رضي الله عنه:</strong> أول الخلفاء الراشدين، ورفيق النبي ﷺ في الهجرة، وصاحب لقب 'الصديق' لصدق إيمانه المطلق وثباته يوم وفاة الرسول وتسييره لجيوش أهل الردة.";
+            } else if(name === 'عمر') {
+                text = "<strong>عمر بن الخطاب رضي الله عنه:</strong> الفاروق الذي فرّق الله به بين الحق والباطل، ثاني الخلفاء الراشدين، تميز بعدله الشديد، وفُتحت في عهده القدس ومصر وبلاد الفرس.";
+            } else if(name === 'خالد') {
+                text = "<strong>خالد بن الوليد رضي الله عنه:</strong> سيف الله المسلول، القائد العسكري العبقري الذي لم يُهزم في معركة قط في الجاهلية أو الإسلام، قاد معركة اليرموك الخالدة ونشر راية التوحيد.";
+            }
+            resultBox.innerHTML = text;
+        }
+    </script>
 </body>
 </html>
