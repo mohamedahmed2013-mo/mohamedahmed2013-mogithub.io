@@ -1,8 +1,28 @@
 <!DOCTYPE html>
-<html>
-<body>
-    <!-- إضافة controls تسمح لك بالتحكم اليدوي ورؤية هل الملف يعمل أم لا -->
-    <audio id="myAudio" controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-    <p>إذا ظهر لك شريط التحكم أعلاه، اضغط على زر "Play" الموجود داخله.</p>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تشغيل إجباري</title>
+</head>
+<body style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#000; color:#fff;">
+
+    <h2 style="margin-bottom:20px;">مشغل الصوت الإجباري</h2>
+    
+    <!-- خاصية controls تظهر زر التشغيل والتحكم في الصوت للمتصفح -->
+    <audio id="audio" controls style="width:300px; height:50px;">
+        <source src="https://archive.org/download/Adhan_Madinah/Adhan_Madinah.mp3" type="audio/mpeg">
+        متصفحك لا يدعم تشغيل الصوت.
+    </audio>
+
+    <p style="margin-top:20px;">إذا لم تسمع شيئاً، اضغط على زر التشغيل (Play) في الشريط أعلاه.</p>
+
+    <script>
+        // محاولة تشغيل الصوت تلقائياً بعد ثانية واحدة
+        setTimeout(() => {
+            document.getElementById('audio').play().catch(err => {
+                console.log("المتصفح منع التشغيل التلقائي، يرجى الضغط على زر Play يدوياً");
+            });
+        }, 1000);
+    </script>
 </body>
 </html>
