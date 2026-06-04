@@ -11,35 +11,33 @@
             --text-color: #f8fafc;
             --primary-color: #00b4d8;
             --accent-color: #00f5d4;
+            --highlight: #ffd166;
+            --success-color: #2a9d8f;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        
-        /* تعديل العنوان الرئيسي كما طلبت */
         header { text-align: center; margin: 20px 0 30px 0; }
         header h1 { color: var(--primary-color); font-size: 2.5rem; margin-bottom: 10px; }
         
         .main-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 20px; }
         
-        .azan-bar {
-            background: linear-gradient(135deg, #132247, #1c2541);
-            border: 1px solid var(--primary-color);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .azan-title { font-weight: bold; color: var(--accent-color); font-size: 1.2rem; margin-bottom: 10px; }
-        .azan-status { font-size: 0.9rem; color: #94a3b8; }
+        /* بار الأذان والمواقيت */
+        .azan-bar { background: linear-gradient(135deg, #132247, #1c2541); border: 1px solid var(--primary-color); border-radius: 15px; padding: 15px 20px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .azan-header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .azan-title { font-weight: bold; color: var(--accent-color); font-size: 1.1rem; }
+        .azan-btn { background: var(--primary-color); color: #000; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
         
-        .prayer-times-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .prayer-item { text-align: center; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; }
-        .prayer-name { color: #94a3b8; font-size: 0.9rem; }
-        .prayer-time { font-weight: bold; color: #fff; margin-top: 5px; }
+        .prayer-times-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; background: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 10px; }
+        .prayer-item { text-align: center; padding: 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); }
+        .prayer-name { font-size: 0.85rem; color: #94a3b8; }
+        .prayer-time { font-size: 1rem; font-weight: bold; color: #fff; }
+
+        /* الأزرار والأقسام */
+        .menu-box { background: var(--card-bg); border-radius: 15px; padding: 25px; text-align: center; font-size: 1.5rem; font-weight: bold; cursor: pointer; border: 2px solid transparent; transition: 0.3s; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .menu-box:hover { border-color: var(--primary-color); background: #222f54; }
+        
+        .content-section { display: none; background: var(--card-bg); border-radius: 20px; padding: 25px; }
+        .back-btn { font-size: 0.9rem; padding: 5px 12px; background: rgba(255,255,255,0.1); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -50,18 +48,27 @@
     </header>
 
     <div class="main-container">
+        <!-- بار الأذان -->
         <div class="azan-bar">
-            <div class="azan-title">نظام المواقيت والآذان التلقائي 🕌</div>
-            <div class="azan-status">انقر فوق أي مكان بالشاشة لتنشيط نظام الأذن التلقائي بالكامل 🔔</div>
-            
+            <div class="azan-header-container">
+                <div class="azan-title">نظام المواقيت والآذان التلقائي</div>
+                <button class="azan-btn">استماع تجريبي</button>
+            </div>
             <div class="prayer-times-grid">
-                <div class="prayer-item"><div class="prayer-name">المغرب</div><div class="prayer-time">07:55 م</div></div>
-                <div class="prayer-item"><div class="prayer-name">العصر</div><div class="prayer-time">04:30 م</div></div>
-                <div class="prayer-item"><div class="prayer-name">الظهر</div><div class="prayer-time">12:55 م</div></div>
                 <div class="prayer-item"><div class="prayer-name">الفجر</div><div class="prayer-time">04:10 ص</div></div>
+                <div class="prayer-item"><div class="prayer-name">الظهر</div><div class="prayer-time">12:55 م</div></div>
+                <div class="prayer-item"><div class="prayer-name">العصر</div><div class="prayer-time">04:30 م</div></div>
+                <div class="prayer-item"><div class="prayer-name">المغرب</div><div class="prayer-time">07:55 م</div></div>
+                <div class="prayer-item"><div class="prayer-name">العشاء</div><div class="prayer-time">09:30 م</div></div>
             </div>
         </div>
-    </div>
 
+        <!-- القائمة الرئيسية -->
+        <div id="mainMenu" style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="menu-box">🌅 الأذكار اليومية والورد المحصن</div>
+            <div class="menu-box">🩹 محرك المشاعر والأمان النفسي</div>
+            <div class="menu-box">🕌 سير الصحابة العظماء</div>
+        </div>
+    </div>
 </body>
 </html>
