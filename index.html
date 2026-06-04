@@ -2,17 +2,28 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تشغيل الآذان</title>
+    <title>نظام الآذان</title>
 </head>
-<body style="background:#0a1128; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif;">
+<body style="background:#0a1128; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;">
 
     <h2>نظام الآذان</h2>
 
-    <audio id="audio" controls style="width:300px;">
-        <source src="https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3" type="audio/mpeg">
+    <audio id="audio" controls>
+        <source src="azan.mp3" type="audio/mpeg">
     </audio>
 
-    <p style="margin-top:20px;">اضغط على زر التشغيل في الشريط أعلاه.</p>
+    <p id="msg">اضغط في أي مكان في الصفحة لسماع الأذان</p>
 
+    <script>
+        // هذا السكريبت سيحاول تشغيل الصوت بمجرد ضغطك في أي مكان بالصفحة
+        window.addEventListener('click', () => {
+            const audio = document.getElementById('audio');
+            audio.play().then(() => {
+                document.getElementById('msg').innerText = "جاري تشغيل الأذان...";
+            }).catch(error => {
+                console.log("المتصفح لا يزال يمنع التشغيل التلقائي");
+            });
+        }, { once: true });
+    </script>
 </body>
 </html>
