@@ -2,53 +2,32 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>نظام الآذان</title>
-    <style>
-        body { background: #0a1128; color: white; display: flex; justify-content: center; padding-top: 50px; font-family: sans-serif; }
-        .box { background: #1c2541; padding: 30px; border-radius: 15px; text-align: center; border: 1px solid #00b4d8; }
-        button { padding: 15px 30px; font-size: 1.2rem; cursor: pointer; background: #00b4d8; border: none; border-radius: 10px; color: black; font-weight: bold; }
-    </style>
+    <title>آذان الإسكندرية</title>
 </head>
-<body>
+<body style="background:#0a1128; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;">
 
-    <div class="box">
-        <h3>نظام الآذان التلقائي</h3>
-        <p id="msg">اضغط في أي مكان بالصفحة أولاً، ثم اضغط زر التشغيل</p>
-        <button id="playBtn" onclick="tryPlay()">▶ استماع تجريبي</button>
-    </div>
+    <button id="mainBtn" style="padding:40px 80px; font-size:2rem; cursor:pointer; background:#00f5d4; border:none; border-radius:20px; font-weight:bold;">
+        اضغط هنا للتشغيل
+    </button>
 
-    <!-- رابط مباشر ومضمون -->
-    <audio id="audioPlayer" src="https://archive.org/download/Adhan_Madinah/Adhan_Madinah.mp3" preload="auto"></audio>
+    <audio id="myAudio" src="https://archive.org/download/Adhan_Madinah/Adhan_Madinah.mp3"></audio>
 
     <script>
-        const audio = document.getElementById("audioPlayer");
-        const btn = document.getElementById("playBtn");
-        let isUnlocked = false;
+        const audio = document.getElementById("myAudio");
+        const btn = document.getElementById("mainBtn");
 
-        // وظيفة لفك قفل الصوت عند أول ضغطة في الصفحة
-        document.body.addEventListener('click', () => {
-            if (!isUnlocked) {
-                audio.play().then(() => {
-                    audio.pause();
-                    audio.currentTime = 0;
-                    isUnlocked = true;
-                    document.getElementById("msg").innerText = "تم تفعيل الصوت بنجاح! اضغط الاستماع الآن";
-                }).catch(e => console.log("بانتظار تفاعل المستخدم"));
-            }
-        }, { once: true });
-
-        function tryPlay() {
+        btn.onclick = () => {
             if (audio.paused) {
-                audio.play().catch(e => alert("اضغط في أي مكان بالصفحة أولاً للسماح بالصوت"));
-                btn.innerText = "⏸ إيقاف";
+                audio.play();
+                btn.innerText = "يعمل الآن... (إيقاف؟)";
+                btn.style.background = "#ff4d4d";
             } else {
                 audio.pause();
                 audio.currentTime = 0;
-                btn.innerText = "▶ استماع تجريبي";
+                btn.innerText = "اضغط هنا للتشغيل";
+                btn.style.background = "#00f5d4";
             }
-        }
-
-        audio.onended = () => { btn.innerText = "▶ استماع تجريبي"; };
+        };
     </script>
 </body>
 </html>
