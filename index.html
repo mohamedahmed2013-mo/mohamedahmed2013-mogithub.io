@@ -2,33 +2,49 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تشغيل الكاميرا</title>
+    <title>طمئن قلبك - الموسوعة الكاملة</title>
     <style>
-        body { display: flex; flex-direction: column; align-items: center; background: #0a1128; color: white; font-family: sans-serif; }
-        #video { width: 100%; max-width: 600px; border: 5px solid #00b4d8; border-radius: 15px; margin-top: 20px; }
-        button { padding: 15px 30px; margin-top: 20px; font-size: 1.2rem; cursor: pointer; background: #00f5d4; border: none; border-radius: 10px; font-weight: bold; }
+        /* (استخدم نفس الستايل السابق الذي أرسلته لك في رسالتك) */
+        /* تأكد من إضافة ستايل الـ modal و companions-grid */
     </style>
 </head>
-<body>
-
-    <h1>نظام عرض الكاميرا</h1>
-    <button id="startBtn">تشغيل الكاميرا</button>
-    <video id="video" autoplay playsinline></video>
+<body onclick="enableAudioContext()">
 
     <script>
-        const video = document.getElementById('video');
-        const btn = document.getElementById('startBtn');
+        // دمج كافة الوظائف البرمجية
+        const companionsData = [
+            { name: "أبو بكر الصديق", title: "رفيق الغار", story: "قصة أبو بكر كاملة هنا..." },
+            { name: "عمر بن الخطاب", title: "الفاروق", story: "قصة عمر كاملة هنا..." },
+            // أضف بقية الصحابة بنفس التنسيق
+        ];
 
-        btn.onclick = async () => {
-            try {
-                // طلب الوصول للكاميرا
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-                video.srcObject = stream;
-                btn.style.display = 'none'; // إخفاء الزر بعد التشغيل
-            } catch (err) {
-                alert("تعذر الوصول للكاميرا: " + err.message);
-            }
-        };
+        // وظيفة عرض الصحابة
+        function renderCompanions(filter = "") {
+            const grid = document.getElementById('companionsGrid');
+            grid.innerHTML = "";
+            companionsData.filter(c => c.name.includes(filter)).forEach(comp => {
+                const card = document.createElement('div');
+                card.className = 'companion-card';
+                card.innerHTML = `<h3>${comp.name}</h3><h4>${comp.title}</h4>`;
+                card.onclick = () => openModal(comp);
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(comp) {
+            document.getElementById('modalTitle').innerText = comp.name;
+            document.getElementById('modalSubtitle').innerText = comp.title;
+            document.getElementById('modalBody').innerHTML = comp.story;
+            document.getElementById('companionModal').style.display = 'flex';
+        }
+
+        function closeModal(e) {
+            if(!e || e.target.className === 'modal-close' || e.target.className === 'modal-overlay')
+                document.getElementById('companionModal').style.display = 'none';
+        }
+
+        // تفعيل أول تحميل
+        renderCompanions();
     </script>
 </body>
 </html>
