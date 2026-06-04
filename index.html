@@ -2,27 +2,24 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تشغيل إجباري</title>
+    <title>طمئن قلبك</title>
 </head>
-<body style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:#000; color:#fff;">
+<body style="background:#0a1128; color:#fff; text-align:center; padding-top:50px; font-family:sans-serif;">
 
-    <h2 style="margin-bottom:20px;">مشغل الصوت الإجباري</h2>
+    <h1>نظام الآذان</h1>
     
-    <!-- خاصية controls تظهر زر التشغيل والتحكم في الصوت للمتصفح -->
-    <audio id="audio" controls style="width:300px; height:50px;">
-        <source src="https://archive.org/download/Adhan_Madinah/Adhan_Madinah.mp3" type="audio/mpeg">
-        متصفحك لا يدعم تشغيل الصوت.
+    <audio id="azan" controls>
+        <source src="https://server11.mp3quran.net/adhan/001.mp3" type="audio/mpeg">
     </audio>
 
-    <p style="margin-top:20px;">إذا لم تسمع شيئاً، اضغط على زر التشغيل (Play) في الشريط أعلاه.</p>
+    <p>اضغط على زر التشغيل (المثلث) في الشريط أعلاه.</p>
 
     <script>
-        // محاولة تشغيل الصوت تلقائياً بعد ثانية واحدة
-        setTimeout(() => {
-            document.getElementById('audio').play().catch(err => {
-                console.log("المتصفح منع التشغيل التلقائي، يرجى الضغط على زر Play يدوياً");
-            });
-        }, 1000);
+        // هذا الجزء فقط للتشغيل التلقائي الذي قد يسمح به المتصفح
+        window.addEventListener('click', () => {
+            const audio = document.getElementById('azan');
+            audio.play().catch(() => {});
+        }, { once: true });
     </script>
 </body>
 </html>
