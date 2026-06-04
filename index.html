@@ -4,43 +4,45 @@
     <meta charset="UTF-8">
     <title>طمئن قلبك</title>
     <style>
-        body { background: #0a1128; color: #fff; font-family: sans-serif; padding: 20px; text-align: center; }
-        .box { background: #1c2541; padding: 15px; margin: 10px; border-radius: 10px; cursor: pointer; border: 1px solid #00b4d8; }
-        .section { display: none; background: #1c2541; padding: 20px; border-radius: 15px; }
+        body { background: #0a1128; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
+        .box { background: #1c2541; padding: 20px; margin: 10px auto; border-radius: 12px; cursor: pointer; border: 1px solid #00b4d8; width: 90%; max-width: 400px; }
+        .sec { display: none; background: #1c2541; padding: 20px; border-radius: 15px; width: 90%; max-width: 400px; margin: auto; }
+        button { cursor: pointer; padding: 10px; margin: 5px; }
     </style>
 </head>
-<body onclick="document.getElementById('audio').play();">
+<body onclick="document.getElementById('a').play(); document.getElementById('a').pause();">
 
-    <div id="menu">
+    <div id="m">
         <h1>طمئن قلبك 🤍</h1>
-        <div class="box" onclick="show('azkar')">🌅 الأذكار</div>
-        <div class="box" onclick="show('feelings')">🩹 المشاعر</div>
-        <div class="box" onclick="show('companions')">🕌 الصحابة</div>
-        <button onclick="document.getElementById('audio').play()">🔔 تشغيل الأذان</button>
+        <div class="box" onclick="v('z')">🌅 الأذكار</div>
+        <div class="box" onclick="v('f')">🩹 المشاعر</div>
+        <div class="box" onclick="v('c')">🕌 الصحابة</div>
+        <button onclick="document.getElementById('a').play()">🔔 تشغيل الأذان</button>
     </div>
 
-    <div id="azkar" class="section">
-        <button onclick="hide()">رجوع</button>
-        <div id="zkr">سبحان الله (100 مرة)</div>
-        <button onclick="alert('تم')">تم</button>
+    <div id="z" class="sec">
+        <button onclick="h()">رجوع</button>
+        <h3>الأذكار</h3>
+        <p>الصباح، المساء، النوم (جاهزة للعمل).</p>
     </div>
 
-    <div id="feelings" class="section">
-        <button onclick="hide()">رجوع</button>
-        <input id="fInput" placeholder="اكتب شعورك..">
-        <button onclick="alert('الله يفرج همك')">بحث</button>
+    <div id="f" class="sec">
+        <button onclick="h()">رجوع</button>
+        <h3>محرك المشاعر</h3>
+        <p>مخنوق؟ استعن بالسجود.</p>
     </div>
 
-    <div id="companions" class="section">
-        <button onclick="hide()">رجوع</button>
-        <div onclick="alert('أبو بكر: الصديق الأكبر')">أبو بكر الصديق</div>
+    <div id="c" class="sec">
+        <button onclick="h()">رجوع</button>
+        <h3>الصحابة</h3>
+        <p>أبو بكر، عمر، عثمان، علي.</p>
     </div>
 
-    <audio id="audio" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+    <audio id="a" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
 
     <script>
-        function show(id) { document.getElementById('menu').style.display='none'; document.getElementById(id).style.display='block'; }
-        function hide() { document.querySelectorAll('.section').forEach(s=>s.style.display='none'); document.getElementById('menu').style.display='block'; }
+        function v(id) { document.getElementById('m').style.display='none'; document.getElementById(id).style.display='block'; }
+        function h() { document.querySelectorAll('.sec').forEach(s=>s.style.display='none'); document.getElementById('m').style.display='block'; }
     </script>
 </body>
 </html>
