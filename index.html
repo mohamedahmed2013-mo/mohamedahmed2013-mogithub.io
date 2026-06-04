@@ -2,28 +2,33 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>نظام الآذان</title>
+    <title>تشغيل الكاميرا</title>
+    <style>
+        body { display: flex; flex-direction: column; align-items: center; background: #0a1128; color: white; font-family: sans-serif; }
+        #video { width: 100%; max-width: 600px; border: 5px solid #00b4d8; border-radius: 15px; margin-top: 20px; }
+        button { padding: 15px 30px; margin-top: 20px; font-size: 1.2rem; cursor: pointer; background: #00f5d4; border: none; border-radius: 10px; font-weight: bold; }
+    </style>
 </head>
-<body style="background:#0a1128; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;">
+<body>
 
-    <h2>نظام الآذان</h2>
-
-    <audio id="audio" controls>
-        <source src="azan.mp3" type="audio/mpeg">
-    </audio>
-
-    <p id="msg">اضغط في أي مكان في الصفحة لسماع الأذان</p>
+    <h1>نظام عرض الكاميرا</h1>
+    <button id="startBtn">تشغيل الكاميرا</button>
+    <video id="video" autoplay playsinline></video>
 
     <script>
-        // هذا السكريبت سيحاول تشغيل الصوت بمجرد ضغطك في أي مكان بالصفحة
-        window.addEventListener('click', () => {
-            const audio = document.getElementById('audio');
-            audio.play().then(() => {
-                document.getElementById('msg').innerText = "جاري تشغيل الأذان...";
-            }).catch(error => {
-                console.log("المتصفح لا يزال يمنع التشغيل التلقائي");
-            });
-        }, { once: true });
+        const video = document.getElementById('video');
+        const btn = document.getElementById('startBtn');
+
+        btn.onclick = async () => {
+            try {
+                // طلب الوصول للكاميرا
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video.srcObject = stream;
+                btn.style.display = 'none'; // إخفاء الزر بعد التشغيل
+            } catch (err) {
+                alert("تعذر الوصول للكاميرا: " + err.message);
+            }
+        };
     </script>
 </body>
 </html>
