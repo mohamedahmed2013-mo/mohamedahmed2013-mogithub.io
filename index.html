@@ -2,51 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>طمئن قلبك - النسخة الكاملة</title>
+    <title>طمئن قلبك - النظام المتكامل</title>
     <style>
-        :root { --bg-color: #0a1128; --card-bg: #1c2541; --text-color: #f8fafc; --primary-color: #00b4d8; }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: sans-serif; padding: 20px; }
-        /* هذا هو السر: إخفاء كل الأقسام عند البدء */
-        .content-section { display: none; }
-        .menu-box { background: var(--card-bg); padding: 20px; margin: 10px; border-radius: 10px; cursor: pointer; text-align: center; border: 1px solid var(--primary-color); }
+        :root { --bg-color: #0a1128; --card-bg: #1c2541; --text-color: #f8fafc; --primary-color: #00b4d8; --accent-color: #00f5d4; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .main-container { width: 100%; max-width: 800px; }
+        .content-section { display: none; background: var(--card-bg); padding: 25px; border-radius: 20px; width: 100%; }
+        .menu-box { background: var(--card-bg); padding: 20px; margin-bottom: 15px; border-radius: 15px; cursor: pointer; border: 2px solid var(--primary-color); text-align: center; }
+        .companion-card { background: #0f172a; padding: 15px; margin: 10px 0; border-radius: 10px; cursor: pointer; border-right: 5px solid var(--primary-color); }
+        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 20px; max-width: 600px; width: 90%; }
     </style>
 </head>
 <body>
 
-    <div id="mainMenu">
-        <div class="menu-box" onclick="showSection('azanSection')">🕌 نظام المواقيت والآذان</div>
-        <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية</div>
-        <div class="menu-box" onclick="showSection('feelingsSection')">🩹 محرك المشاعر</div>
-        <div class="menu-box" onclick="showSection('companionsSection')">🕌 سير الصحابة</div>
-    </div>
-
-    <div id="azanSection" class="content-section">
-        <button onclick="showMenu()">↩ رجوع</button>
-        <h2>نظام الآذان</h2>
-        <p>هنا ستظهر المواقيت وتفعيل الصوت...</p>
-    </div>
-
-    <div id="azkarSection" class="content-section">
-        <button onclick="showMenu()">↩ رجوع</button>
-        <h2>الأذكار اليومية</h2>
-        <div id="zkrDisplay">الذكر يظهر هنا</div>
-        <button onclick="countZkr()">تسبيح</button>
-    </div>
-
-    <div id="feelingsSection" class="content-section">
-        <button onclick="showMenu()">↩ رجوع</button>
-        <h2>محرك المشاعر</h2>
+    <div class="main-container" id="app">
+        <div id="mainMenu">
+            <div class="menu-box" onclick="showSection('azanSection')">🕌 نظام المواقيت والآذان</div>
+            <div class="menu-box" onclick="showSection('azkarSection')">🌅 الأذكار اليومية</div>
+            <div class="menu-box" onclick="showSection('feelingsSection')">🩹 محرك المشاعر</div>
+            <div class="menu-box" onclick="showSection('companionsSection')">🕌 موسوعة الصحابة العظماء</div>
         </div>
 
-    <div id="companionsSection" class="content-section">
-        <button onclick="showMenu()">↩ رجوع</button>
-        <h2>موسوعة الصحابة</h2>
-        <input type="text" id="companionInput" oninput="filterCompanions()" placeholder="ابحث باسم الصحابي...">
-        <div id="companionsGrid"></div>
+        <div id="azanSection" class="content-section">
+            <h2>🕌 نظام المواقيت</h2>
+            <button onclick="showMenu()">رجوع</button>
+        </div>
+
+        <div id="azkarSection" class="content-section">
+            <h2>🌅 الأذكار</h2>
+            <button onclick="showMenu()">رجوع</button>
+        </div>
+
+        <div id="feelingsSection" class="content-section">
+            <h2>🩹 محرك المشاعر</h2>
+            <button onclick="showMenu()">رجوع</button>
+        </div>
+
+        <div id="companionsSection" class="content-section">
+            <h2 class="box-title">موسوعة الصحابة <button onclick="showMenu()">رجوع</button></h2>
+            <input type="text" id="companionInput" oninput="filterCompanions()" placeholder="ابحث باسم الصحابي..." style="width:100%; padding:10px;">
+            <div id="companionsGrid"></div>
+        </div>
+    </div>
+
+    <div id="companionModal" class="modal-overlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2 id="modalTitle" style="color:var(--accent-color)"></h2>
+            <p id="modalBody" style="line-height:1.8"></p>
+            <button onclick="closeModal()">إغلاق</button>
+        </div>
     </div>
 
     <script>
-        // المحرك: دالة التنقل
+        // قاعدة بيانات الصحابة الموسعة
+        const companionsData = [
+            { name: "أبو بكر الصديق", info: "أول من أسلم من الرجال، صاحب الرسول في الغار، وأول الخلفاء الراشدين، لقب بالصديق لتصديقه للنبي في حادثة الإسراء والمعراج." },
+            { name: "عمر بن الخطاب", info: "الفاروق الذي أعز الله به الإسلام، كان شديداً في الحق، ثاني الخلفاء الراشدين، عُرف بالعدل والحزم." },
+            { name: "عثمان بن عفان", info: "ذو النورين، استحي منه ملائكة السماء، جامع القرآن الكريم في مصحف واحد، تميز بالحياء والإنفاق." },
+            { name: "علي بن أبي طالب", info: "ابن عم الرسول، أول من أسلم من الصبيان، فدائي الهجرة، وباب مدينة العلم، رابع الخلفاء الراشدين." }
+            // يمكنك إضافة الـ 200 صحابي بنفس هذا التنسيق
+        ];
+
         function showSection(id) {
             document.getElementById('mainMenu').style.display = 'none';
             document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
@@ -58,16 +75,31 @@
             document.getElementById('mainMenu').style.display = 'block';
         }
 
-        // هنا يجب أن تضع منطقك الأصلي الذي كان في ملفك
-        function filterCompanions() {
-            // منطق البحث الخاص بك
-            console.log("البحث يعمل...");
+        function renderCompanions(data = companionsData) {
+            const grid = document.getElementById('companionsGrid');
+            grid.innerHTML = "";
+            data.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'companion-card';
+                card.innerHTML = `<h3>${c.name}</h3>`;
+                card.onclick = () => {
+                    document.getElementById('modalTitle').innerText = c.name;
+                    document.getElementById('modalBody').innerText = c.info;
+                    document.getElementById('companionModal').style.display = 'flex';
+                };
+                grid.appendChild(card);
+            });
         }
 
-        function countZkr() {
-            // منطق العداد
-            alert("تم التسبيح");
+        function filterCompanions() {
+            const query = document.getElementById('companionInput').value.toLowerCase();
+            const filtered = companionsData.filter(c => c.name.toLowerCase().includes(query));
+            renderCompanions(filtered);
         }
+
+        function closeModal() { document.getElementById('companionModal').style.display = 'none'; }
+
+        renderCompanions();
     </script>
 </body>
 </html>
